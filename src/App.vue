@@ -2,16 +2,34 @@
 export default {
   data() {
     return {
-      names: ['Sam', 'John'],
       isActive: false,
+      showSam: true,
+      showJenny: true,
+      showGavin: true,
+
+      people: ['Donny'],
+      newPerson: '',
     }
   },
   methods: {
     toggle() {
       this.isActive = !this.isActive
     },
-    addName() {
-      this.names.push('Tim')
+    addPerson() {
+      this.people.push(this.newPerson)
+      this.newPerson = ''
+    },
+    addSam() {
+      this.people.push('Sam')
+      this.showSam = false
+    },
+    addJenny() {
+      this.people.push('Jenny')
+      this.showJenny = false
+    },
+    addGavin() {
+      this.people.push('Gavin')
+      this.showGavin = false
     },
   },
 }
@@ -19,18 +37,26 @@ export default {
 
 <template>
   <header>March 2nd</header>
+  <hr />
   <h2>Event: Dinner at Grindstone</h2>
+  <hr />
   <h3>
     Add People
     <button @click="toggle" :class="{ active: isActive }">+</button>
   </h3>
+  <li v-for="person in people">
+    {{ person }}
+  </li>
   <main>
     <div v-show="isActive">
-      <button @click="addName">Add</button>
-      <h4>People Added:</h4>
-      <h5 v-for="(name, i) in names" :key="i">
-        {{ name }}
-      </h5>
+      <input v-model="newPerson" type="text" placeholder="Enter Person" />
+      <button @click="addPerson">Add Person</button>
+
+      <h4>People recently Added:</h4>
+
+      <div v-show="showSam">Sam <button @click="addSam">+</button></div>
+      <div v-show="showJenny">Jenny <button @click="addJenny">+</button></div>
+      <div v-show="showGavin">Gavin <button @click="addGavin">+</button></div>
     </div>
   </main>
 </template>
