@@ -2,12 +2,14 @@
 export default {
   data() {
     return {
+      hours: Array.from({ length: 24 }, (_, i) => i),
+      selectedHour: null,
       isActive: false,
       showSam: true,
       showJenny: true,
       showGavin: true,
-
-      people: ['Donny'],
+      event: '',
+      people: [],
       newPerson: '',
     }
   },
@@ -18,6 +20,9 @@ export default {
     addPerson() {
       this.people.push(this.newPerson)
       this.newPerson = ''
+    },
+    deletePerson(index) {
+      this.people.splice(index, 1)
     },
     addSam() {
       this.people.push('Sam')
@@ -31,6 +36,10 @@ export default {
       this.people.push('Gavin')
       this.showGavin = false
     },
+    formatHour(hour) {
+      if (hour === null) return ''
+      return String(hour).padStart(2, '0') + ':00'
+    },
   },
 }
 </script>
@@ -38,15 +47,24 @@ export default {
 <template>
   <header>March 2nd</header>
   <hr />
-  <h2>Event: Dinner at Grindstone</h2>
+  <div>
+    <h2>
+      Event:
+      <input v-model="event" type="text" class="eventText" placeholder="Enter Name of Event" />
+    </h2>
+  </div>
+
   <hr />
   <h3>
     Add People
     <button @click="toggle" :class="{ active: isActive }">+</button>
   </h3>
-  <li v-for="person in people">
-    {{ person }}
-  </li>
+  <ul>
+    <li v-for="(person, index) in people" :key="index">
+      {{ person }}
+      <button @click="deletePerson(index)">-</button>
+    </li>
+  </ul>
   <main>
     <div v-show="isActive">
       <input v-model="newPerson" type="text" placeholder="Enter Person" />
@@ -58,11 +76,30 @@ export default {
       <div v-show="showJenny">Jenny <button @click="addJenny">+</button></div>
       <div v-show="showGavin">Gavin <button @click="addGavin">+</button></div>
     </div>
+    <div>
+      <label for="hour-select">Time:</label>
+      <select id="hour-select" v-model="selectedHour">
+        <option v-for="hour in hours" :key="hour" :value="hour">{{ formatHour(hour) }}</option>
+      </select>
+      <p>Hour: {{ formatHour(selectedHour) }}</p>
+    </div>
   </main>
 </template>
 
 <style scoped>
 header {
   font-size: 300%;
+}
+.eventText {
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+.eventText:focus {
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+.eventText[type='text'] {
+  color: whitesmoke;
+  font-size: 22px;
 }
 </style>
