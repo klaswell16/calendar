@@ -10,10 +10,6 @@ const routes = [
   {
     path: '/add-people',
     component: AddPeople,
-    props: (route) => ({
-      people: route.meta.parentState.people,
-      onAddPerson: route.meta.parentState.onAddPerson,
-    }),
   },
 ]
 
