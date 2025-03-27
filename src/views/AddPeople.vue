@@ -1,5 +1,10 @@
 <script>
+import { usePeopleStore } from '@/stores/people'
 export default {
+  setup() {
+    const peopleStore = usePeopleStore()
+    return { peopleStore }
+  },
   inject: ['people', 'onAddPerson'],
   props: {
     people: {
@@ -25,12 +30,7 @@ export default {
   },
   methods: {
     addPerson(name) {
-      if (name) {
-        this.onAddPerson(name)
-      } else if (this.newPerson.trim()) {
-        this.onAddPerson(this.newPerson.trim())
-        this.newPerson = ''
-      }
+      this.peopleStore.addPerson(name || this.newPerson.trim())
     },
   },
 }

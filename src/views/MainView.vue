@@ -1,5 +1,10 @@
 <script>
+import { usePeopleStore } from '@/stores/people'
 export default {
+  setup() {
+    const peopleStore = usePeopleStore()
+    return { peopleStore }
+  },
   provide() {
     return {
       people: this.people,
@@ -49,6 +54,9 @@ export default {
     },
   },
   computed: {
+    people() {
+      return this.peopleStore.list
+    },
     displayTime() {
       return this.formatTime(this.selectedHour, this.selectedMinute)
     },
