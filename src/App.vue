@@ -45,7 +45,12 @@ export default {
 </script>
 
 <template>
-  <header>March 2nd</header>
+  <header>
+    Date:
+    <input v-model="month" type="text" style="width: 50px" class="monthText" placeholder="M" />
+    /
+    <input v-model="day" type="text" style="width: 50px" class="dayText" placeholder="D" />
+  </header>
   <hr />
   <div>
     <h2>
@@ -101,5 +106,29 @@ header {
 .eventText[type='text'] {
   color: whitesmoke;
   font-size: 22px;
+}
+.monthText {
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+.monthText:focus {
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+.monthText[type='text'] {
+  color: whitesmoke;
+  font-size: 40px;
+}
+.dayText {
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+.dayText:focus {
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+.dayText[type='text'] {
+  color: whitesmoke;
+  font-size: 40px;
 }
 </style>
