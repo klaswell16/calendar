@@ -29,7 +29,7 @@ export default {
   methods: {
     deletePerson(index) {
       const deletedName = this.people[index]
-      this.people.splice(index, 1)
+      this.peopleStore.removePerson(index)
       if (deletedName === 'Sam') this.showSam = true
       if (deletedName === 'Jenny') this.showJenny = true
       if (deletedName === 'Gavin') this.showGavin = true
