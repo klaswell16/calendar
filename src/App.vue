@@ -5,7 +5,9 @@ export default {
       month: '',
       day: '',
       hours: Array.from({ length: 24 }, (_, i) => i),
+      minutes: Array.from({ length: 12 }, (_, i) => i * 5), // 0, 5, 10...55
       selectedHour: null,
+      selectedMinute: null,
       isActive: false,
       showSam: true,
       showJenny: true,
@@ -40,9 +42,12 @@ export default {
       this.people.push('Gavin')
       this.showGavin = false
     },
-    formatHour(hour) {
-      if (hour === null) return ''
-      return String(hour).padStart(2, '0') + ':00'
+    formatTime(hour, minute) {
+      if (hour === null || minute === null) return '--:--'
+      return `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
+    },
+    get displayTime() {
+      return this.formatTime(this.selectedHour, this.selectedMinute)
     },
   },
 }
@@ -91,14 +96,24 @@ export default {
         <div v-show="showGavin">Gavin <button @click="addGavin">+</button></div>
       </div>
       <hr />
-      <div>
-        <label for="hour-select">Time:</label>
-        <select id="hour-select" v-model="selectedHour">
-          <option v-for="hour in hours" :key="hour" :value="hour">
-            {{ formatHour(hour) }}
-          </option>
-        </select>
-        <p>Hour: {{ formatHour(selectedHour) }}</p>
+      <div class="time-selector">
+        <label>Time:</label>
+        <div class="time-dropdowns">
+          <select v-model="selectedHour">
+            <option value="" disabled selected>HH</option>
+            <option v-for="hour in hours" :key="'h' + hour" :value="hour">
+              {{ String(hour).padStart(2, '0') }}
+            </option>
+          </select>
+          :
+          <select v-model="selectedMinute">
+            <option value="" disabled selected>MM</option>
+            <option v-for="minute in minutes" :key="'m' + minute" :value="minute">
+              {{ String(minute).padStart(2, '0') }}
+            </option>
+          </select>
+        </div>
+        <div class="time-display">{{ displayTime }}</div>
       </div>
     </main>
   </div>
@@ -106,10 +121,8 @@ export default {
 
 <style scoped>
 .zoom-container {
-  transform: scale(1.5);
+  transform: scale(2.5);
   transform-origin: 0 0;
-  width: 66.67%;
-  padding: 20px;
 }
 
 header {
@@ -139,5 +152,23 @@ header {
 }
 button {
   cursor: pointer;
+}
+
+.time-selector {
+  margin-top: 10px;
+}
+.time-dropdowns {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.time-dropdowns select {
+  padding: 5px;
+  font-size: 16px;
+}
+.time-display {
+  margin-top: 5px;
+  font-size: 18px;
+  font-weight: bold;
 }
 </style>
