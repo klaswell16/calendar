@@ -125,15 +125,16 @@ header {
   background-color: transparent;
   border: none;
   outline: none;
-  color: whitesmoke;
+  color: black;
   font-size: 22px;
 }
+
 .monthText,
 .dayText {
   background-color: transparent;
   border: none;
   outline: none;
-  color: whitesmoke;
+  color: black;
   font-size: 40px;
 }
 button,
